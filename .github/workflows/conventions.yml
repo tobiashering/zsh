@@ -25,7 +25,7 @@ jobs:
           node-version: "24"
 
       - name: Install commitlint
-        run: npm install -g commitlint@v20.5.3
+        run: npm install -g commitlint@v21.0.0
 
       - name: Run commitlint
         run: commitlint --verbose --from ${{ github.event.pull_request.base.sha }} --to ${{ github.sha }}
