@@ -11,7 +11,7 @@ usage = "3.3.0"
 # Common packages
 bat = "0.26.1"
 btop = "1.4.7"
-fzf = "0.72.0"
+fzf = "0.73.0"
 jq = "1.8.1"
 yq = "4.53.2"
 
