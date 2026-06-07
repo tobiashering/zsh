@@ -6,9 +6,9 @@ rules:
     - 2
     - always
     - - ci
-      - config
       - deps
       - docker
+      - mise
       - renovate
       - repo
       - scripts

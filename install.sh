@@ -68,4 +68,5 @@ echo ""
 # Install mise
 echo "Install mise..."
 curl https://mise.run | sh
-ln -sf $ZSH_DIR/mise.toml $HOME/mise.local.toml
+mkdir -p $HOME/.config/mise
+ln -sf $ZSH_DIR/mise.toml $HOME/.config/mise/config.toml
