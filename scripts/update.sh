@@ -42,8 +42,8 @@ update_antidote() {
 
 update_mise() {
   headline "Updating mise"
-  mise install
   mise self-update
+  mise install
   echo
 }
 
