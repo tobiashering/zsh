@@ -16,14 +16,20 @@ echo
 
 # Install ohmyzsh
 echo "Install oh-my-zsh..."
-rm -rf $OHMYZSH_FOLDER
-sh -c "$(curl -fsSL $OHMYZSH_INSTALL_SCRIPT)" "" --unattended
+if [ ! -d "$OHMYZSH_FOLDER" ]; then
+  sh -c "$(curl -fsSL $OHMYZSH_INSTALL_SCRIPT)" "" --unattended
+else
+  echo "oh-my-zsh already installed. Skipping..."
+fi
 echo
 
 # Install antidote
 echo "Install antidote..."
-rm -rf $ANTIDOTE_PATH
-git clone --depth=1 $ANTIDOTE_REPO $ANTIDOTE_PATH
+if [ ! -d "$ANTIDOTE_PATH" ]; then
+  git clone --depth=1 $ANTIDOTE_REPO $ANTIDOTE_PATH
+else
+  echo "antidote already installed. Skipping..."
+fi
 echo
 
 # Cleanup zsh folder
@@ -37,8 +43,12 @@ fi
 # Remove the zsh config and replace it with a symlink
 echo "Replace the zsh config with a symlink..."
 ZSHRC=~/.zshrc
-rm -f $ZSHRC
-ln -s $ZSH_DIR/.zshrc $ZSHRC
+if [ -L "$ZSHRC" ] && [ "$(readlink "$ZSHRC")" = "$ZSH_DIR/.zshrc" ]; then
+  echo "Symlink already points to the correct location. Skipping..."
+else
+  rm -f $ZSHRC
+  ln -s $ZSH_DIR/.zshrc $ZSHRC
+fi
 echo
 
 # Set zsh as default shell if it isnt
