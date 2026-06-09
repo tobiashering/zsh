@@ -23,7 +23,7 @@ uv = "0.11.19"
 node = "24.16.0"
 bun = "1.3.14"
 "npm:@anthropic-ai/claude-code" = "2.1.168"
-"npm:@github/copilot" = "1.0.59"
+"npm:@github/copilot" = "1.0.60"
 "npm:@openai/codex" = "0.137.0"
 
 # Go packages
