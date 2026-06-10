@@ -51,11 +51,6 @@
       "addLabels": ["linters"]
     },
     {
-      "groupName": "Mise tools",
-      "matchManagers": ["mise"],
-      "addLabels": ["mise"]
-    },
-    {
       "description": "Docker updates",
       "matchDatasources": ["docker"],
       "addLabels": ["docker"],
