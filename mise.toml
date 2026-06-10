@@ -17,7 +17,7 @@ yq = "4.53.3"
 
 # Python
 uv = "0.11.19"
-"pipx:yt-dlp" = "2026.3.17"
+"pipx:yt-dlp" = "2026.6.9"
 
 # Node packages
 node = "24.16.0"
