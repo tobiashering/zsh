@@ -5,7 +5,8 @@ rules:
   scope-enum:
     - 2
     - always
-    - - ci
+    - - aliases
+      - ci
       - deps
       - docker
       - mise
