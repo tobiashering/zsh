@@ -1,4 +1,4 @@
-min_version = "2025.12.5"
+min_version = "2026.6.1"
 
 [settings]
 npm.bun = true
