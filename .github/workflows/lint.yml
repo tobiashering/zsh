@@ -20,7 +20,7 @@ jobs:
           node-version: 24
 
       - name: Install Prettier
-        run: npm install -g prettier@3.8.4
+        run: npm install -g prettier@3.8.5
 
       - name: Run Prettier
         run: prettier --check "**/*.{md,yml,yaml,json}"
