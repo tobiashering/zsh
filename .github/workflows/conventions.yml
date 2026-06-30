@@ -13,19 +13,18 @@ jobs:
     if: github.event_name == 'pull_request'
     name: Conventional Commitlint
     runs-on: ubuntu-latest
+    env:
+      MISE_TASK_RUN_AUTO_INSTALL: "false"
     steps:
       - name: Checkout code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+      - name: Setup Mise
+        uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
         with:
-          node-version: "24"
-
-      - name: Install commitlint
-        run: npm install -g commitlint@v21.1.0
+          install_args: node bun npm:commitlint
 
       - name: Run commitlint
-        run: commitlint --verbose --from ${{ github.event.pull_request.base.sha }} --to ${{ github.sha }}
+        run: mise run lint:commit ${{ github.event.pull_request.base.sha }} ${{ github.sha }}

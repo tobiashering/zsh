@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+#MISE description="Lint Markdown files in the project"
+
+set -euo pipefail
+
+markdownlint-cli2 .
