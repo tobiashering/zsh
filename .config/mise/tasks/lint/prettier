@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+#MISE description="Check repository formatting with Prettier"
+
+set -euo pipefail
+
+prettier --check "**/*.{md,yml,yaml,json}"

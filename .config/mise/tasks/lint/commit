@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+#MISE description="Lint commit messages between two revisions"
+#USAGE arg "<base>" help="Base Git revision"
+#USAGE arg "<head>" help="Head Git revision"
+
+set -euo pipefail
+
+commitlint --verbose --from "$usage_base" --to "$usage_head"

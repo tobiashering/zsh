@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#MISE description="Run all lint tasks"
+
+set -euo pipefail
+
+mise run lint:prettier
+mise run lint:markdown
+mise run lint:shell
+mise run lint:dockerfile

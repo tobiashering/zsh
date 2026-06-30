@@ -9,57 +9,18 @@ on:
       - main
 
 jobs:
-  prettier:
-    name: Prettier
+  lint:
+    name: Linters
     runs-on: ubuntu-latest
+    env:
+      MISE_TASK_RUN_AUTO_INSTALL: "false"
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+      - name: Setup Mise
+        uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
         with:
-          node-version: 24
+          install_args: node bun npm:markdownlint-cli2 npm:prettier shellcheck hadolint
 
-      - name: Install Prettier
-        run: npm install -g prettier@3.8.5
-
-      - name: Run Prettier
-        run: prettier --check "**/*.{md,yml,yaml,json}"
-
-  markdown:
-    name: Markdown Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
-        with:
-          node-version: "24"
-
-      - name: Install markdownlint-cli2
-        run: npm install -g markdownlint-cli2@0.22.1
-
-      - name: Run markdownlint
-        run: markdownlint-cli2 .
-
-  shellcheck:
-    name: ShellCheck
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
-
-      - name: Run ShellCheck
-        run: |
-          cd scripts
-          shellcheck -x *.sh
-
-  hadolint:
-    name: Hadolint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
-
-      - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
-        with:
-          dockerfile: Dockerfile
+      - name: Run linters
+        run: mise run lint

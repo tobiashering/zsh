@@ -6,9 +6,9 @@
   "automerge": true,
   "packageRules": [
     {
-      "description": "Disable auto-merge for major updates",
-      "automerge": false,
-      "matchUpdateTypes": ["major", "replacement"]
+      "description": "Disable auto-merge for major updates and replacement packages",
+      "matchUpdateTypes": ["major", "replacement"],
+      "automerge": false
     },
     {
       "description": "Add renovate label to all updates by default",
@@ -36,20 +36,18 @@
       "addLabels": ["digest"]
     },
     {
-      "description": "Docker updates",
+      "description": "Docker",
       "matchDatasources": ["docker"],
       "addLabels": ["docker"],
       "pinDigests": true
     },
     {
       "description": "Docker digest pins",
-      "groupName": "Docker digest pins",
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["pinDigest"]
     },
     {
       "description": "Docker digest updates",
-      "groupName": "Docker digest updates",
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"]
     },
@@ -59,31 +57,15 @@
       "addLabels": ["ci"]
     },
     {
-      "description": "Linters",
-      "groupName": "Linters",
-      "matchPackageNames": [
-        "commitlint",
-        "hadolint/hadolint-action",
-        "markdownlint-cli2",
-        "prettier"
-      ],
-      "addLabels": ["linters"]
-    },
-    {
       "description": "Mise tools",
       "matchManagers": ["mise"],
       "addLabels": ["mise"]
-    }
-  ],
-  "customManagers": [
+    },
     {
-      "description": "Update globally installed npm tools in GitHub Actions workflows",
-      "customType": "regex",
-      "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.ya?ml$/"],
-      "matchStrings": [
-        "npm install -g (?<depName>[a-z0-9-]+)@v?(?<currentValue>[0-9.]+)"
-      ],
-      "datasourceTemplate": "npm"
+      "description": "Renovate",
+      "matchPackageNames": ["renovate", "ghcr.io/renovatebot/renovate"],
+      "addLabels": ["renovate"],
+      "schedule": "* 3-5 * * 1"
     }
   ]
 }
