@@ -6,4 +6,5 @@
 
 set -euo pipefail
 
+# shellcheck disable=SC2154
 commitlint --verbose --from "$usage_base" --to "$usage_head"

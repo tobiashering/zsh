@@ -5,5 +5,5 @@ set -euo pipefail
 
 mise run lint:prettier
 mise run lint:markdown
-mise run lint:shell
-mise run lint:dockerfile
+mise run lint:scripts
+mise run lint:dockerfiles
