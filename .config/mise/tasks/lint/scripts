@@ -4,4 +4,4 @@
 
 set -euo pipefail
 
-shellcheck -x scripts/*.sh
+shellcheck -x install.sh scripts/*.sh

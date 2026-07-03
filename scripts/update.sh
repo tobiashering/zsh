@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#  Prompt for sudo password at the beginning of the script
+# Prompt for sudo password at the beginning of the script
 sudo -v
 
 # Update APT packages
@@ -17,8 +17,8 @@ if command -v snap &>/dev/null; then
 fi
 
 # Update Oh My Zsh repository
-git -C "$ZSH_FOLDER" stash
-git -C "$ZSH_FOLDER" pull
+git -C "$ZSH_REPO_PATH" stash
+git -C "$ZSH_REPO_PATH" pull
 echo
 
 # Update Oh My Zsh plugins and themes
