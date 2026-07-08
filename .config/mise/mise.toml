@@ -10,7 +10,7 @@ usage = "3.5.4"
 # Common packages
 bat = "0.26.1"
 btop = "1.4.7"
-fzf = "0.73.1"
+fzf = "0.74.0"
 hadolint = "2.14.0"
 jq = "1.8.2"
 shellcheck = "0.11.0"
