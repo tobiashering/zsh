@@ -1,5 +1,8 @@
-# Environment variables
+# Auto update repo before initializing zsh
 export ZSH_REPO_PATH=$HOME/.zsh
+git -C "$ZSH_REPO_PATH" pull --rebase --autostash > /dev/null 2>&1
+
+# Environment variables
 export ZSH_CONFIG_PATH=$ZSH_REPO_PATH/.config/zsh
 export ZSH_MISE_CONFIG_PATH=$ZSH_REPO_PATH/.config/mise
 export ZSH_SCRIPTS_PATH=$ZSH_REPO_PATH/scripts
@@ -45,3 +48,6 @@ source "$ZSH_CONFIG_PATH/machine_specific_config.zshrc"
 # To customize prompt, run `p10k configure` or edit .p10k.zsh
 P10K_CONFIG_FILE=$ZSH_REPO_PATH/.p10k.zsh
 [[ ! -f $P10K_CONFIG_FILE ]] || source $P10K_CONFIG_FILE
+
+# Update mise tools
+mise install
