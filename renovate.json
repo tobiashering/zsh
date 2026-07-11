@@ -63,6 +63,7 @@
     },
     {
       "description": "Renovate",
+      "groupName": "Renovate",
       "matchPackageNames": ["renovate", "ghcr.io/renovatebot/renovate"],
       "addLabels": ["renovate"],
       "schedule": "* 3-5 * * 1"
