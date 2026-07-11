@@ -59,7 +59,8 @@
     {
       "description": "Mise tools",
       "matchManagers": ["mise"],
-      "addLabels": ["mise"]
+      "addLabels": ["mise"],
+      "schedule": ["* 1-5 * * *"]
     },
     {
       "description": "Renovate",
