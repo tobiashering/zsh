@@ -3,6 +3,7 @@
   "extends": ["config:best-practices"],
   "timezone": "Europe/Berlin",
   "automerge": true,
+  "prHourlyLimit": 5,
   "packageRules": [
     {
       "description": "Disable auto-merge for major updates and replacement packages",
