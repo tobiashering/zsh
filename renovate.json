@@ -2,7 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:best-practices"],
   "timezone": "Europe/Berlin",
-  "schedule": ["before 6am"],
   "automerge": true,
   "packageRules": [
     {
@@ -60,14 +59,13 @@
       "description": "Mise tools",
       "matchManagers": ["mise"],
       "addLabels": ["mise"],
-      "schedule": ["* 1-5 * * *"]
+      "automergeSchedule": ["* 0-5 * * *"]
     },
     {
       "description": "Renovate",
       "groupName": "Renovate",
       "matchPackageNames": ["renovate", "ghcr.io/renovatebot/renovate"],
-      "addLabels": ["renovate"],
-      "schedule": "* 3-5 * * 1"
+      "addLabels": ["renovate"]
     }
   ]
 }
