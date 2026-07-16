@@ -26,5 +26,5 @@ bun = "1.3.14"
 # AI packages
 "npm:@anthropic-ai/claude-code" = "2.1.207"
 "npm:@github/copilot" = "1.0.70"
-"npm:@openai/codex" = "0.144.1"
+"npm:@openai/codex" = "0.144.3"
 "npm:opencode-ai" = "1.17.18"
