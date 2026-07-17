@@ -1,20 +1,17 @@
-name: Lint conventions
+name: Commits
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
 
+env:
+  MISE_TASK_RUN_AUTO_INSTALL: "false"
+
 jobs:
   commitlint:
-    if: github.event_name == 'pull_request'
-    name: Conventional Commitlint
-    runs-on: ubuntu-latest
-    env:
-      MISE_TASK_RUN_AUTO_INSTALL: "false"
+    name: Commitlint
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -24,7 +21,7 @@ jobs:
       - name: Setup Mise
         uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
         with:
-          install_args: node bun npm:commitlint
+          install_args: bun npm:commitlint
 
       - name: Run commitlint
-        run: mise run lint:commit ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
+        run: mise lint:commit ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
