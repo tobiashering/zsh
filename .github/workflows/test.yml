@@ -1,0 +1,76 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".config/zsh/**"
+      - ".github/workflows/test.yml"
+      - ".p10k.zsh"
+      - ".zsh_plugins.txt"
+      - ".zshrc"
+      - "Dockerfile"
+      - "fonts/**"
+      - "install.sh"
+
+env:
+  ZSH_SKIP_MISE_INSTALL: "1"
+
+jobs:
+  zsh:
+    name: ZSH setup
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Build setup test image
+        run: docker build --tag zsh-setup-test .
+
+      - name: Test symlinks
+        run: |
+          docker run --rm zsh-setup-test bash -lc '
+            set -euo pipefail
+
+            echo "Checking ~/.zshrc symlink..."
+            test -L "$HOME/.zshrc"
+            test "$(readlink "$HOME/.zshrc")" = "$HOME/.zsh/.zshrc"
+
+            echo "Checking mise config symlink..."
+            test -L "$HOME/.config/mise/config.toml"
+            test "$(readlink "$HOME/.config/mise/config.toml")" = "$HOME/.zsh/.config/mise/mise.toml"
+          '
+
+      - name: Show mise config
+        run: |
+          docker run --rm --env ZSH_SKIP_MISE_INSTALL zsh-setup-test bash -lc '
+            set -euo pipefail
+
+            echo "Starting interactive zsh and printing mise version..."
+            zsh -ic "mise --version"
+
+            echo "Checking that mise can parse config..."
+            zsh -ic "mise config ls"
+
+            echo "Showing configured mise tools..."
+            zsh -ic "mise ls"
+          '
+
+      - name: Test machine specific config
+        run: |
+          docker run --rm --env ZSH_SKIP_MISE_INSTALL zsh-setup-test bash -lc '
+            set -euo pipefail
+
+            echo "Starting zsh to create machine-specific config..."
+            zsh -ic "true"
+
+            echo "Checking machine-specific config file exists..."
+            test -f "$HOME/.machine_specific.zshrc"
+
+            echo "Writing test machine-specific option..."
+            printf "%s\n" "export ZSH_MACHINE_SPECIFIC_TEST=works" > "$HOME/.machine_specific.zshrc"
+
+            echo "Checking machine-specific config is sourced..."
+            zsh -ic "test \"\$ZSH_MACHINE_SPECIFIC_TEST\" = works"
+          '

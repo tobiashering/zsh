@@ -49,5 +49,7 @@ source "$ZSH_CONFIG_PATH/machine_specific_config.zshrc"
 P10K_CONFIG_FILE=$ZSH_REPO_PATH/.p10k.zsh
 [[ ! -f $P10K_CONFIG_FILE ]] || source $P10K_CONFIG_FILE
 
-# Update mise tools
-mise install
+# Update mise tools automatically
+if [[ -z "${ZSH_SKIP_MISE_INSTALL:-}" ]]; then
+  mise install
+fi
