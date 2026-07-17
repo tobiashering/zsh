@@ -60,6 +60,7 @@
       "description": "Mise tools",
       "matchManagers": ["mise"],
       "addLabels": ["mise"],
+      "platformAutomerge": false,
       "automergeSchedule": ["* 0-5 * * *"]
     },
     {
