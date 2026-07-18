@@ -1,42 +1,76 @@
 # zsh
 
-install script for the installation of zsh and several plugins.
+Personal zsh setup for a consistent shell environment across machines.
 
-## Install
+## Features
+
+- zsh setup with a preconfigured prompt
+- shell aliases and helper functions
+- managed command-line tools
+- bundled terminal font support
+- machine-specific local configuration
+- update helper for the shell environment and installed tools
+
+## Setup
+
+Clone this repository into your home directory:
 
 ```bash
 cd ~
 git clone https://github.com/ToBoNaToR3/zsh
 cd zsh
+```
+
+Run the install script:
+
+```bash
 bash install.sh
 ```
 
-## Install fonts for powerlevel10k
+The installer sets up the shell environment, links the repository configuration
+into the expected user locations, installs bundled fonts, and prepares the
+managed tool environment.
 
-<https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#manual-font-installation>
+After installation, restart your terminal or log out and back in if the default
+shell was changed.
 
-## Reconfigure powerlevel10k
+## Prompt configuration
+
+The prompt is configured with Powerlevel10k.
+
+To adjust the prompt interactively, run:
 
 ```bash
 p10k configure
 ```
 
-## Check for powerline font support
+Use a terminal font with Powerline/Nerd Font glyph support for the best prompt
+display. The bundled fonts are installed during setup.
 
-```bash
-echo -e "\xee\x82\xa0"
-```
+## Usage
 
-## Use the development container
+Open a new terminal session to load the configuration.
+
+User-specific settings should be added to the machine-specific configuration
+file in your home directory. This keeps local preferences separate from the
+shared repository configuration.
+
+Use the provided update helper from an interactive shell session to refresh the
+repository, shell framework, plugins, and managed tools.
+
+## Development
+
+A container setup is available for testing the installation in a clean
+environment.
+
+Build the Docker image from the repository root:
 
 ```bash
 docker build -t zsh-test .
-docker run -it zsh-test
 ```
 
-Mise tools are not installed automatically.
-To install them, run the folloowing command in the container shell:
+Run the image interactively:
 
 ```bash
-mise install
+docker run -it zsh-test
 ```
