@@ -1,13 +1,25 @@
 #!/bin/bash
 
-# Environment variables
-ZSH_INITIAL_REPO_PATH=$HOME/zsh
-ZSH_FINAL_REPO_PATH=$HOME/.zsh
+set -euo pipefail
 
-OHMYZSH_PATH=$HOME/.oh-my-zsh
+# Environment variables
+ZSH_INITIAL_REPO_PATH=${ZSH_INITIAL_REPO_PATH:-"$HOME/zsh"}
+ZSH_REPO_PATH=${ZSH_REPO_PATH:-"$HOME/.zsh"}
+ZSH_CONFIG_PATH=$ZSH_REPO_PATH/config/zsh
+ZSH_MISE_CONFIG_PATH=$ZSH_REPO_PATH/config/mise
+ZSH_FONTS_PATH=$ZSH_REPO_PATH/fonts
+
+ZSHRC_PATH=$HOME/.zshrc
+ZSHRC_REPO_PATH=$ZSH_CONFIG_PATH/zshrc
+
+LOCAL_FONT_PATH=$HOME/.local/share/fonts
+MISE_LOCAL_CONFIG_PATH=$HOME/.config/mise/config.toml
+MISE_CONFIG_REPO_PATH=$ZSH_MISE_CONFIG_PATH/mise.toml
+
+OHMYZSH_PATH=${OHMYZSH_PATH:-"$HOME/.oh-my-zsh"}
 OHMYZSH_INSTALL_SCRIPT=https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 
-ANTIDOTE_PATH=$HOME/.antidote
+ANTIDOTE_PATH=${ANTIDOTE_PATH:-"$HOME/.antidote"}
 ANTIDOTE_REPO=https://github.com/mattmc3/antidote.git
 
 # Install dependencies
@@ -35,21 +47,19 @@ echo
 
 # Cleanup zsh folder
 if [ -d "$ZSH_INITIAL_REPO_PATH" ]; then
-  echo "Moving the zsh folder to $ZSH_FINAL_REPO_PATH..."
-  rm -rf "$ZSH_FINAL_REPO_PATH"
-  mv "$ZSH_INITIAL_REPO_PATH" "$ZSH_FINAL_REPO_PATH"
+  echo "Moving the zsh folder to $ZSH_REPO_PATH..."
+  rm -rf "$ZSH_REPO_PATH"
+  mv "$ZSH_INITIAL_REPO_PATH" "$ZSH_REPO_PATH"
   echo
 fi
 
 # Remove the zsh config and replace it with a symlink
 echo "Replace the zsh config with a symlink..."
-ZSHRC=~/.zshrc
-ZSHRC_REPO_PATH=$ZSH_FINAL_REPO_PATH/config/zsh/zshrc
-if [ -L "$ZSHRC" ] && [ "$(readlink "$ZSHRC")" = "$ZSHRC_REPO_PATH" ]; then
+if [ -L "$ZSHRC_PATH" ] && [ "$(readlink "$ZSHRC_PATH")" = "$ZSHRC_REPO_PATH" ]; then
   echo "Symlink already points to the correct location. Skipping..."
 else
-  rm -f $ZSHRC
-  ln -sf "$ZSHRC_REPO_PATH" $ZSHRC
+  rm -f "$ZSHRC_PATH"
+  ln -sf "$ZSHRC_REPO_PATH" "$ZSHRC_PATH"
 fi
 echo
 
@@ -67,20 +77,16 @@ echo
 
 # Install fonts
 echo "Install fonts..."
-LOCAL_FONT_PATH=~/.local/share/fonts
 if [ ! -d "$LOCAL_FONT_PATH" ]; then
-  mkdir -p $LOCAL_FONT_PATH
-  chmod 755 $LOCAL_FONT_PATH
+  mkdir -p "$LOCAL_FONT_PATH"
+  chmod 755 "$LOCAL_FONT_PATH"
 fi
-cp -r "$ZSH_FINAL_REPO_PATH"/fonts/* $LOCAL_FONT_PATH
-chmod 644 $LOCAL_FONT_PATH/*
+cp -r "$ZSH_FONTS_PATH"/* "$LOCAL_FONT_PATH"
+chmod 644 "$LOCAL_FONT_PATH"/*
 fc-cache -f
 echo ""
 
 # Install mise
-MISE_CONFIG_REPO_PATH=$ZSH_FINAL_REPO_PATH/config/mise/mise.toml
-MISE_LOCAL_CONFIG_PATH=$HOME/.config/mise/config.toml
-
 echo "Install mise..."
 curl https://mise.run | sh
 mkdir -p "$HOME/.config/mise"
