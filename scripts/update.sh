@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
+ZSH_REPO_PATH=${ZSH_REPO_PATH:-"$HOME/.zsh"}
+
 # Prompt for sudo password at the beginning of the script
 sudo -v
 
