@@ -3,8 +3,8 @@ export ZSH_REPO_PATH=$HOME/.zsh
 git -C "$ZSH_REPO_PATH" pull --rebase --autostash > /dev/null 2>&1
 
 # Environment variables
-export ZSH_CONFIG_PATH=$ZSH_REPO_PATH/.config/zsh
-export ZSH_MISE_CONFIG_PATH=$ZSH_REPO_PATH/.config/mise
+export ZSH_CONFIG_PATH=$ZSH_REPO_PATH/config/zsh
+export ZSH_MISE_CONFIG_PATH=$ZSH_REPO_PATH/config/mise
 export ZSH_SCRIPTS_PATH=$ZSH_REPO_PATH/scripts
 
 export MISE_TRUSTED_CONFIG_PATHS=$ZSH_MISE_CONFIG_PATH/mise.toml
@@ -19,7 +19,7 @@ export ZSH_THEME="eastwood"
 export ZDOTDIR=$ZSH_REPO_PATH
 # shellcheck source=/dev/null
 source "$ANTIDOTE_PATH"
-antidote load
+antidote load "$ZSH_CONFIG_PATH/zsh_plugins.txt"
 
 # Load mise
 MISE_EXECUTABLE_PATH=$HOME/.local/bin/mise
@@ -38,15 +38,15 @@ export EDITOR=nano
 zstyle ':omz:update' mode auto
 
 # Mount config files
-# shellcheck source=.config/zsh/aliases.zshrc
+# shellcheck source=config/zsh/aliases.zshrc
 source "$ZSH_CONFIG_PATH/aliases.zshrc"
-# shellcheck source=.config/zsh/commands.zshrc
+# shellcheck source=config/zsh/commands.zshrc
 source "$ZSH_CONFIG_PATH/commands.zshrc"
-# shellcheck source=.config/zsh/machine_specific_config.zshrc
+# shellcheck source=config/zsh/machine_specific_config.zshrc
 source "$ZSH_CONFIG_PATH/machine_specific_config.zshrc"
 
-# To customize prompt, run `p10k configure` or edit .p10k.zsh
-P10K_CONFIG_FILE=$ZSH_REPO_PATH/.p10k.zsh
+# To customize prompt, run `p10k configure` or edit config/zsh/p10k.zsh
+P10K_CONFIG_FILE=$ZSH_CONFIG_PATH/p10k.zsh
 [[ ! -f $P10K_CONFIG_FILE ]] || source $P10K_CONFIG_FILE
 
 # Update mise tools automatically

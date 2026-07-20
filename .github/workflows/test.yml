@@ -5,11 +5,10 @@ on:
     branches:
       - main
     paths:
-      - ".config/zsh/**"
+      - ".config/mise/**"
+      - "config/mise/**"
+      - "config/zsh/**"
       - ".github/workflows/test.yml"
-      - ".p10k.zsh"
-      - ".zsh_plugins.txt"
-      - ".zshrc"
       - "Dockerfile"
       - "fonts/**"
       - "install.sh"
@@ -35,11 +34,11 @@ jobs:
 
             echo "Checking ~/.zshrc symlink..."
             test -L "$HOME/.zshrc"
-            test "$(readlink "$HOME/.zshrc")" = "$HOME/.zsh/.zshrc"
+            test "$(readlink "$HOME/.zshrc")" = "$HOME/.zsh/config/zsh/zshrc"
 
             echo "Checking mise config symlink..."
             test -L "$HOME/.config/mise/config.toml"
-            test "$(readlink "$HOME/.config/mise/config.toml")" = "$HOME/.zsh/.config/mise/mise.toml"
+            test "$(readlink "$HOME/.config/mise/config.toml")" = "$HOME/.zsh/config/mise/mise.toml"
           '
 
       - name: Show mise config
