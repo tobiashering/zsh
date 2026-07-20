@@ -58,6 +58,10 @@ shared repository configuration.
 Use the provided update helper from an interactive shell session to refresh the
 repository, shell framework, plugins, and managed tools.
 
+Shell configuration lives in `config/zsh`, and the interactive shell toolset is
+managed by `config/mise/mise.toml`. CI-only tools and lint tasks live in
+`.config/mise`.
+
 ## Development
 
 A container setup is available for testing the installation in a clean

@@ -44,11 +44,12 @@ fi
 # Remove the zsh config and replace it with a symlink
 echo "Replace the zsh config with a symlink..."
 ZSHRC=~/.zshrc
-if [ -L "$ZSHRC" ] && [ "$(readlink "$ZSHRC")" = "$ZSH_FINAL_REPO_PATH/.zshrc" ]; then
+ZSHRC_REPO_PATH=$ZSH_FINAL_REPO_PATH/config/zsh/zshrc
+if [ -L "$ZSHRC" ] && [ "$(readlink "$ZSHRC")" = "$ZSHRC_REPO_PATH" ]; then
   echo "Symlink already points to the correct location. Skipping..."
 else
   rm -f $ZSHRC
-  ln -sf "$ZSH_FINAL_REPO_PATH/.zshrc" $ZSHRC
+  ln -sf "$ZSHRC_REPO_PATH" $ZSHRC
 fi
 echo
 
@@ -77,7 +78,7 @@ fc-cache -f
 echo ""
 
 # Install mise
-MISE_CONFIG_REPO_PATH=$ZSH_FINAL_REPO_PATH/.config/mise/mise.toml
+MISE_CONFIG_REPO_PATH=$ZSH_FINAL_REPO_PATH/config/mise/mise.toml
 MISE_LOCAL_CONFIG_PATH=$HOME/.config/mise/config.toml
 
 echo "Install mise..."

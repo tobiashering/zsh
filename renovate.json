@@ -4,6 +4,9 @@
   "timezone": "Europe/Berlin",
   "automerge": true,
   "prHourlyLimit": 5,
+  "mise": {
+    "managerFilePatterns": ["/^config/mise/mise\\.toml$/"]
+  },
   "packageRules": [
     {
       "description": "Disable auto-merge for major updates and replacement packages",
