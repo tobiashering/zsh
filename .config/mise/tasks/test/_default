@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+#MISE description="Build the zsh Docker image and open an interactive shell"
+
+set -euo pipefail
+
+docker build -t zsh-test .
+docker run --rm -it zsh-test
