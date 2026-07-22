@@ -2,19 +2,14 @@
 
 set -euo pipefail
 
-# Environment variables
 ZSH_INITIAL_REPO_PATH=${ZSH_INITIAL_REPO_PATH:-"$HOME/zsh"}
 ZSH_REPO_PATH=${ZSH_REPO_PATH:-"$HOME/.zsh"}
 ZSH_CONFIG_PATH=$ZSH_REPO_PATH/config/zsh
 ZSH_MISE_CONFIG_PATH=$ZSH_REPO_PATH/config/mise
 ZSH_FONTS_PATH=$ZSH_REPO_PATH/fonts
 
-ZSHRC_PATH=$HOME/.zshrc
-ZSHRC_REPO_PATH=$ZSH_CONFIG_PATH/zshrc
-
 LOCAL_FONT_PATH=$HOME/.local/share/fonts
-MISE_LOCAL_CONFIG_PATH=$HOME/.config/mise/config.toml
-MISE_CONFIG_REPO_PATH=$ZSH_MISE_CONFIG_PATH/mise.toml
+MISE_BIN_PATH=$HOME/.local/bin/mise
 
 OHMYZSH_PATH=${OHMYZSH_PATH:-"$HOME/.oh-my-zsh"}
 OHMYZSH_INSTALL_SCRIPT=https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
@@ -22,10 +17,24 @@ OHMYZSH_INSTALL_SCRIPT=https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/
 ANTIDOTE_PATH=${ANTIDOTE_PATH:-"$HOME/.antidote"}
 ANTIDOTE_REPO=https://github.com/mattmc3/antidote.git
 
+link_file() {
+  local source=$1
+  local target=$2
+
+  if [ ! -L "$target" ] || [ "$(readlink "$target")" != "$source" ]; then
+    rm -f "$target"
+    ln -sf "$source" "$target"
+  fi
+}
+
 # Install dependencies
-echo "Install dependencies..."
-sudo apt-get update && sudo apt-get install -y curl git zsh
-echo
+APT_PACKAGES=("curl" "git" "zsh" "fontconfig")
+if ! dpkg -s "${APT_PACKAGES[@]}" >/dev/null 2>&1; then
+  echo "Install dependencies..."
+  sudo apt-get update
+  sudo apt-get install -y "${APT_PACKAGES[@]}"
+  echo
+fi
 
 # Install ohmyzsh
 echo "Install oh-my-zsh..."
@@ -46,20 +55,18 @@ fi
 echo
 
 # Cleanup zsh folder
-if [ -d "$ZSH_INITIAL_REPO_PATH" ]; then
+if [ ! -d "$ZSH_REPO_PATH" ] && [ -d "$ZSH_INITIAL_REPO_PATH" ]; then
   echo "Moving the zsh folder to $ZSH_REPO_PATH..."
-  rm -rf "$ZSH_REPO_PATH"
   mv "$ZSH_INITIAL_REPO_PATH" "$ZSH_REPO_PATH"
   echo
 fi
 
 # Remove the zsh config and replace it with a symlink
 echo "Replace the zsh config with a symlink..."
-if [ -L "$ZSHRC_PATH" ] && [ "$(readlink "$ZSHRC_PATH")" = "$ZSHRC_REPO_PATH" ]; then
+if [ -L "$HOME/.zshrc" ] && [ "$(readlink "$HOME/.zshrc")" = "$ZSH_CONFIG_PATH/zshrc" ]; then
   echo "Symlink already points to the correct location. Skipping..."
 else
-  rm -f "$ZSHRC_PATH"
-  ln -sf "$ZSHRC_REPO_PATH" "$ZSHRC_PATH"
+  link_file "$ZSH_CONFIG_PATH/zshrc" "$HOME/.zshrc"
 fi
 echo
 
@@ -77,17 +84,28 @@ echo
 
 # Install fonts
 echo "Install fonts..."
-if [ ! -d "$LOCAL_FONT_PATH" ]; then
-  mkdir -p "$LOCAL_FONT_PATH"
-  chmod 755 "$LOCAL_FONT_PATH"
+mkdir -p "$LOCAL_FONT_PATH"
+fonts_installed=0
+for font in "$ZSH_FONTS_PATH"/*; do
+  if [ ! -f "$LOCAL_FONT_PATH/$(basename "$font")" ]; then
+    cp "$font" "$LOCAL_FONT_PATH"
+    chmod 644 "$LOCAL_FONT_PATH/$(basename "$font")"
+    fonts_installed=1
+  fi
+done
+if [ "$fonts_installed" -eq 1 ]; then
+  fc-cache -f >/dev/null
+else
+  echo "fonts already installed. Skipping..."
 fi
-cp -r "$ZSH_FONTS_PATH"/* "$LOCAL_FONT_PATH"
-chmod 644 "$LOCAL_FONT_PATH"/*
-fc-cache -f
 echo ""
 
 # Install mise
 echo "Install mise..."
-curl https://mise.run | sh
+if [ ! -x "$MISE_BIN_PATH" ]; then
+  curl https://mise.run | sh
+else
+  echo "mise already installed. Skipping..."
+fi
 mkdir -p "$HOME/.config/mise"
-ln -sf "$MISE_CONFIG_REPO_PATH" "$MISE_LOCAL_CONFIG_PATH"
+link_file "$ZSH_MISE_CONFIG_PATH/mise.toml" "$HOME/.config/mise/config.toml"
