@@ -4,7 +4,7 @@ set -euo pipefail
 
 ZSH_INITIAL_REPO_PATH=${ZSH_INITIAL_REPO_PATH:-"$HOME/zsh"}
 ZSH_REPO_PATH=${ZSH_REPO_PATH:-"$HOME/.zsh"}
-ZSH_CONFIG_PATH=$ZSH_REPO_PATH/config/zsh
+ZSH_ENTRYPOINT_PATH=$ZSH_REPO_PATH/.zshrc
 ZSH_MISE_CONFIG_PATH=$ZSH_REPO_PATH/config/mise
 ZSH_FONTS_PATH=$ZSH_REPO_PATH/fonts
 
@@ -14,7 +14,8 @@ MISE_BIN_PATH=$HOME/.local/bin/mise
 OHMYZSH_PATH=${OHMYZSH_PATH:-"$HOME/.oh-my-zsh"}
 OHMYZSH_INSTALL_SCRIPT=https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 
-ANTIDOTE_PATH=${ANTIDOTE_PATH:-"$HOME/.antidote"}
+ANTIDOTE_REPO_PATH=${ANTIDOTE_REPO_PATH:-"$HOME/.antidote"}
+ANTIDOTE_SCRIPT_PATH=$ANTIDOTE_REPO_PATH/antidote.zsh
 ANTIDOTE_REPO=https://github.com/mattmc3/antidote.git
 
 link_file() {
@@ -47,8 +48,9 @@ echo
 
 # Install antidote
 echo "Install antidote..."
-if [ ! -d "$ANTIDOTE_PATH" ]; then
-  git clone --depth=1 "$ANTIDOTE_REPO" "$ANTIDOTE_PATH"
+if [ ! -f "$ANTIDOTE_SCRIPT_PATH" ]; then
+  rm -rf "$ANTIDOTE_REPO_PATH"
+  git clone --depth=1 "$ANTIDOTE_REPO" "$ANTIDOTE_REPO_PATH"
 else
   echo "antidote already installed. Skipping..."
 fi
@@ -63,10 +65,10 @@ fi
 
 # Remove the zsh config and replace it with a symlink
 echo "Replace the zsh config with a symlink..."
-if [ -L "$HOME/.zshrc" ] && [ "$(readlink "$HOME/.zshrc")" = "$ZSH_CONFIG_PATH/zshrc" ]; then
+if [ -L "$HOME/.zshrc" ] && [ "$(readlink "$HOME/.zshrc")" = "$ZSH_ENTRYPOINT_PATH" ]; then
   echo "Symlink already points to the correct location. Skipping..."
 else
-  link_file "$ZSH_CONFIG_PATH/zshrc" "$HOME/.zshrc"
+  link_file "$ZSH_ENTRYPOINT_PATH" "$HOME/.zshrc"
 fi
 echo
 

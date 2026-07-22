@@ -9,7 +9,7 @@ export ZSH_SCRIPTS_PATH=${ZSH_SCRIPTS_PATH:-"$ZSH_REPO_PATH/scripts"}
 export ZSH_PLUGINS_FILE=${ZSH_PLUGINS_FILE:-"$ZSH_CONFIG_PATH/zsh_plugins.txt"}
 
 export MISE_TRUSTED_CONFIG_PATHS=${MISE_TRUSTED_CONFIG_PATHS:-"$ZSH_MISE_CONFIG_PATH/mise.toml"}
-export ANTIDOTE_PATH=${ANTIDOTE_PATH:-"$HOME/.antidote/antidote.zsh"}
+ANTIDOTE_SCRIPT_PATH=${ANTIDOTE_SCRIPT_PATH:-"$HOME/.antidote/antidote.zsh"}
 
 export ZSH=${ZSH:-"$HOME/.oh-my-zsh"}
 
@@ -19,7 +19,7 @@ export ZSH_THEME="eastwood"
 # Initialize plugin manager
 export ZDOTDIR=$ZSH_REPO_PATH
 # shellcheck source=/dev/null
-source "$ANTIDOTE_PATH"
+source "$ANTIDOTE_SCRIPT_PATH"
 antidote load "$ZSH_PLUGINS_FILE"
 
 # Load mise

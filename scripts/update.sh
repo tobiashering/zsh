@@ -3,6 +3,7 @@
 set -euo pipefail
 
 ZSH_REPO_PATH=${ZSH_REPO_PATH:-"$HOME/.zsh"}
+export ANTIDOTE_SCRIPT_PATH=${ANTIDOTE_SCRIPT_PATH:-"$HOME/.antidote/antidote.zsh"}
 
 # Prompt for sudo password at the beginning of the script
 sudo -v
@@ -30,7 +31,7 @@ zsh -i -c "omz update"
 echo
 
 # Update Antidote plugins and themes
-zsh -i -c "antidote update"
+zsh -c 'source "$ANTIDOTE_SCRIPT_PATH" && antidote update'
 echo
 
 # Update Mise and dependencies
