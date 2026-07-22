@@ -1,4 +1,5 @@
-.zcompdump
-.zsh_history
-.zsh_plugins.zsh
-.zshrc.pre*
+**/.zcompdump*
+**/.zsh_history
+**/.zsh_plugins.zsh
+**/.zshrc.pre*
+**/zsh_plugins.zsh

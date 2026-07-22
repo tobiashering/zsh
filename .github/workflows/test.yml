@@ -12,6 +12,8 @@ on:
       - "Dockerfile"
       - "fonts/**"
       - "install.sh"
+      - "scripts/**"
+      - "uninstall.sh"
 
 env:
   ZSH_SKIP_MISE_INSTALL: "1"
@@ -34,7 +36,7 @@ jobs:
 
             echo "Checking ~/.zshrc symlink..."
             test -L "$HOME/.zshrc"
-            test "$(readlink "$HOME/.zshrc")" = "$HOME/.zsh/config/zsh/zshrc"
+            test "$(readlink "$HOME/.zshrc")" = "$HOME/.zsh/.zshrc"
 
             echo "Checking mise config symlink..."
             test -L "$HOME/.config/mise/config.toml"
@@ -54,6 +56,9 @@ jobs:
 
             echo "Showing configured mise tools..."
             zsh -ic "mise ls"
+
+            echo "Checking Oh My Zsh reload entrypoint..."
+            zsh -ic "test \"\$ZDOTDIR\" = \"\$HOME/.zsh\" && whence -w omz"
           '
 
       - name: Test machine specific config
