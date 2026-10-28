@@ -8,7 +8,7 @@ hadolint = "2.15.1"
 shellcheck = "0.11.0"
 
 # Node packages
-node = "24.22.2"
+node = "26.13.0"
 bun = "1.4.4"
 
 "npm:commitlint" = "21.2.4"
