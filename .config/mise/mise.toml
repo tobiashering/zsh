@@ -12,5 +12,5 @@ node = "24.22.3"
 bun = "1.4.5"
 
 "npm:commitlint" = "21.2.4"
-"npm:markdownlint-cli2" = "0.24.1"
+"npm:markdownlint-cli2" = "0.24.2"
 "npm:prettier" = "3.10.1"
